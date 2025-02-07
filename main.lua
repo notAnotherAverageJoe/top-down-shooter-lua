@@ -16,6 +16,7 @@ function love.load()
 
     zombies ={}
     bullets = {}
+    score = 0
 
     gameState = 1
     maxTime = 2
@@ -72,12 +73,13 @@ function love.update(dt)
         end
     end
 -- nested loop to check each zombie looking for each bullet
-
+-- collision of bullet and zombie
     for i,z in ipairs(zombies) do
         for j,b in ipairs(bullets) do
             if distanceBetween(z.x,z.y,b.x,b.y) < 20 then
                 z.dead = true
                 b.dead = true
+                score = score + 1
 
             end
         end
@@ -118,6 +120,7 @@ function love.draw()
         love.graphics.setFont(myFont)
         love.graphics.printf("Click anywhere to begin!", 0, 50, love.graphics.getWidth(), "center")
     end
+    love.graphics.printf("Score " .. score,0, love.graphics.getHeight() - 100, love.graphics.getWidth(), "center")
     --atan2(y1-y2,x1-x2) to find the radian value
     -- this allows the sprites image height and width and / 2 to center it
     love.graphics.draw(sprites.player, player.x, player.y, playerMouseAngle(), nil,nil, sprites.player:getWidth()/2, sprites.player:getHeight()/2)
@@ -146,6 +149,7 @@ function love.mousepressed(x,y,button)
         gameState = 2
         maxTime = 2
         timer = maxTime
+        score = 0
     end
 end
 function playerMouseAngle()
