@@ -14,6 +14,10 @@ function love.load()
     zombies ={}
     bullets = {}
 
+    gameState = 2
+    maxTime = 2
+    timer = maxTime
+
 end
 
 function love.update(dt)
@@ -85,6 +89,16 @@ function love.update(dt)
             table.remove(bullets, i)
         end
     end
+
+    if gameState == 2 then
+        timer = timer - dt
+        if timer <= 0  then
+            spawnZombie()
+            timer = maxTime
+        end
+    end
+
+
 end
 
 
@@ -150,9 +164,7 @@ function spawnZombie()
     elseif side == 4 then
         -- bottom
         zombie.x = math.random(0, love.graphics.getWidth())
-        zombie.y = 
-
-
+        zombie.y = love.graphics.getHeight() + 30
     end
 
     table.insert(zombies, zombie)
