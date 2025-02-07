@@ -136,15 +136,19 @@ function spawnZombie()
 
     local side = math.random(1,4)
     if side == 1 then
+        -- left side
         zombie.x = -30
         zombie.y = math.random(0, love.graphics.getHeight())
     elseif side == 2 then
+        -- right side
         zombie.x = love.graphics.getWidth()+30
         zombie.y = math.random(0, love.graphics.getHeight())
     elseif side == 3 then
+        -- top
         zombie.x = math.random(0, love.graphics.getWidth())
         zombie.y = -30
-    elseif side == then
+    elseif side == 4 then
+        -- bottom
         zombie.x = math.random(0, love.graphics.getWidth())
         zombie.y = 
 
