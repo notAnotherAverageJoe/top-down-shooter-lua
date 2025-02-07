@@ -1,4 +1,6 @@
 function love.load()
+    -- ensuring true random seeding using the users current time
+    math.randomseed(os.time())
     -- make a sprite table to hold all the graphics we will use
     sprites = {}
     sprites.background = love.graphics.newImage('sprites/background.png')
@@ -49,6 +51,8 @@ function love.update(dt)
             for i,z in ipairs(zombies)do
                 zombies[i] = nil
                 gameState = 1
+                player.x = love.graphics.getWidth() /2
+                player.y = love.graphics.getHeight() /2
             end
 
         end
@@ -140,6 +144,8 @@ function love.mousepressed(x,y,button)
         spawnBullet()
     elseif button == 1 and gameState == 1 then 
         gameState = 2
+        maxTime = 2
+        timer = maxTime
     end
 end
 function playerMouseAngle()
