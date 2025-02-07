@@ -26,16 +26,16 @@ end
 function love.update(dt)
     -- each of these monitor for key presses
     if gameState == 2 then
-        if love.keyboard.isDown("d") then
+        if love.keyboard.isDown("d") and player.x < love.graphics.getWidth() then
             player.x = player.x + player.speed*dt
         end
-        if love.keyboard.isDown("a") then
+        if love.keyboard.isDown("a") and player.x > 0 then
             player.x = player.x - player.speed*dt
         end
-        if love.keyboard.isDown("w") then
+        if love.keyboard.isDown("w") and player.y > 0 then
             player.y = player.y - player.speed*dt
         end
-        if love.keyboard.isDown("s") then
+        if love.keyboard.isDown("s") and player.y < love.graphics.getHeight() then
             player.y = player.y + player.speed*dt
         end
     end
