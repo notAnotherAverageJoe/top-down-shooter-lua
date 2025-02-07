@@ -10,11 +10,12 @@ function love.load()
     player.x = love.graphics.getWidth() / 2
     player.y = love.graphics.getHeight() / 2
     player.speed = 200
+    myFont = love.graphics.newFont(30)
 
     zombies ={}
     bullets = {}
 
-    gameState = 2
+    gameState = 1
     maxTime = 2
     timer = maxTime
 
@@ -22,18 +23,20 @@ end
 
 function love.update(dt)
     -- each of these monitor for key presses
-   if love.keyboard.isDown("d") then
-    player.x = player.x + player.speed*dt
-   end
-   if love.keyboard.isDown("a") then
-    player.x = player.x - player.speed*dt
-   end
-   if love.keyboard.isDown("w") then
-    player.y = player.y - player.speed*dt
-   end
-   if love.keyboard.isDown("s") then
-    player.y = player.y + player.speed*dt
-   end
+    if gameState == 2 then
+        if love.keyboard.isDown("d") then
+            player.x = player.x + player.speed*dt
+        end
+        if love.keyboard.isDown("a") then
+            player.x = player.x - player.speed*dt
+        end
+        if love.keyboard.isDown("w") then
+            player.y = player.y - player.speed*dt
+        end
+        if love.keyboard.isDown("s") then
+            player.y = player.y + player.speed*dt
+        end
+    end
 
    for i,z in ipairs(zombies) do
     -- z.x = z.x + 3 this line would have all zombies moving right, could
@@ -45,6 +48,7 @@ function love.update(dt)
         if distanceBetween(z.x, z.y, player.x,player.y) < 30 then
             for i,z in ipairs(zombies)do
                 zombies[i] = nil
+                gameState = 1
             end
 
         end
@@ -94,6 +98,8 @@ function love.update(dt)
         timer = timer - dt
         if timer <= 0  then
             spawnZombie()
+            -- will set the timer to 95% of its original each time.
+            maxTime = 0.95 * maxTime
             timer = maxTime
         end
     end
@@ -104,6 +110,9 @@ end
 
 function love.draw()
     love.graphics.draw(sprites.background,0,0)
+    if gameState == 1 then
+        love.graphics.printf("Click anywhere to begin!", 0, 50, love.graphics.getWidth(), "center")
+    end
     --atan2(y1-y2,x1-x2) to find the radian value
     -- this allows the sprites image height and width and / 2 to center it
     love.graphics.draw(sprites.player, player.x, player.y, playerMouseAngle(), nil,nil, sprites.player:getWidth()/2, sprites.player:getHeight()/2)
