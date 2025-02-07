@@ -111,6 +111,7 @@ end
 function love.draw()
     love.graphics.draw(sprites.background,0,0)
     if gameState == 1 then
+        love.graphics.setFont(myFont)
         love.graphics.printf("Click anywhere to begin!", 0, 50, love.graphics.getWidth(), "center")
     end
     --atan2(y1-y2,x1-x2) to find the radian value
@@ -135,7 +136,7 @@ function love.keypressed(key)
     end
 end
 function love.mousepressed(x,y,button)
-    if button == 1 then
+    if button == 1 and gameState == 2 then
         spawnBullet()
     end
 end
