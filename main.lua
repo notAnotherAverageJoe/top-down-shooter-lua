@@ -140,7 +140,7 @@ function love.draw()
     if player.injured then
         love.graphics.setColor(1, 0, 0)  -- Red color when injured
     else
-        love.graphics.setColor(1, 1, 1)  -- Normal white color
+        love.graphics.setColor(1, 1, 1)  -- Normal white colora
     end
     --atan2(y1-y2,x1-x2) to find the radian value
     -- this allows the sprites image height and width and / 2 to center it
@@ -161,11 +161,11 @@ function love.draw()
 end
 -- only activates once when pressed, isdown keeps running a
 -- as long as the key is held
-function love.keypressed(key)
-    if key == "space" then
-        spawnZombie()
-    end
-end
+-- function love.keypressed(key)
+--     if key == "space" then
+--         spawnZombie()
+--     end
+-- end
 function love.mousepressed(x,y,button)
     if button == 1 and gameState == 2 then
         spawnBullet()
