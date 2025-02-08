@@ -12,7 +12,9 @@ function love.load()
     player.x = love.graphics.getWidth() / 2
     player.y = love.graphics.getHeight() / 2
     player.speed = 200
+    player.injured = false
     myFont = love.graphics.newFont(30)
+    playerInjured = love.graphics.setColor(1,0,0)
 
     zombies ={}
     bullets = {}
@@ -50,10 +52,21 @@ function love.update(dt)
 
         if distanceBetween(z.x, z.y, player.x,player.y) < 30 then
             for i,z in ipairs(zombies)do
-                zombies[i] = nil
-                gameState = 1
-                player.x = love.graphics.getWidth() /2
-                player.y = love.graphics.getHeight() /2
+                if player.injured == false then
+                    zombies[i] = nil
+                    player.injured = true
+                    player.speed = 380
+                   
+                else 
+                    zombies[i] = nil
+                    gameState = 1
+                    player.x = love.graphics.getWidth() /2
+                    player.y = love.graphics.getHeight() /2
+                    player.injured = false
+
+                    
+                end
+      
             end
 
         end
@@ -115,16 +128,27 @@ end
 
 
 function love.draw()
+
     love.graphics.draw(sprites.background,0,0)
     if gameState == 1 then
+        love.graphics.setColor(1, 1, 1)
         love.graphics.setFont(myFont)
         love.graphics.printf("Click anywhere to begin!", 0, 50, love.graphics.getWidth(), "center")
     end
-    love.graphics.printf("Score " .. score,0, love.graphics.getHeight() - 100, love.graphics.getWidth(), "center")
+
+
+    if player.injured then
+        love.graphics.setColor(1, 0, 0)  -- Red color when injured
+    else
+        love.graphics.setColor(1, 1, 1)  -- Normal white color
+    end
     --atan2(y1-y2,x1-x2) to find the radian value
     -- this allows the sprites image height and width and / 2 to center it
     love.graphics.draw(sprites.player, player.x, player.y, playerMouseAngle(), nil,nil, sprites.player:getWidth()/2, sprites.player:getHeight()/2)
--- lua does not start at 0, it starts at 1
+    love.graphics.setColor(1, 1, 1)
+    love.graphics.printf("Score " .. score,0, love.graphics.getHeight() - 100, love.graphics.getWidth(), "center")
+
+    -- lua does not start at 0, it starts at 1
     for i,z in ipairs(zombies) do
         -- z holds the values for each zombie in the table
         love.graphics.draw(sprites.zombie, z.x, z.y, zombiePlayerAngle(z), nil,nil, sprites.zombie:getWidth()/2, sprites.zombie:getHeight()/2)
@@ -150,6 +174,7 @@ function love.mousepressed(x,y,button)
         maxTime = 2
         timer = maxTime
         score = 0
+        player.speed = 200
     end
 end
 function playerMouseAngle()
